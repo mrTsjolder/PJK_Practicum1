@@ -139,6 +139,7 @@ public class File {
 	public int getSize() {
 		return this.size;
 	}
+	
 	/**
 	 * Check whether the given size is a valid size.
 	 * 
@@ -173,6 +174,9 @@ public class File {
 	 * 			The number of bytes that will be added 
 	 * 			to the size of the file.
 	 * @pre		The number of bytes must be a positive number.
+	 * 			| numberOfBytes >= 0
+	 * @effect	The size of the file is increased with the given number of bytes
+	 * 			| setSize(this.getSize() + numberOfBytes)	
 	 */
 	public void enlarge(int numberOfBytes) {
 		setSize(getSize() + numberOfBytes);
@@ -185,6 +189,9 @@ public class File {
 	 * 			The number of bytes that will be removed 
 	 * 			from the size of the file.
 	 * @pre		The number of bytes must be a positive number.
+	 * 			| numberOfBytes >= 0
+	 * @effect	The size of the file is decreased with the given number of bytes
+	 * 			| setSize(this.getSize() - numberOfBytes)
 	 */
 	public void shorten(int numberOfBytes) {
 		setSize(getSize() - numberOfBytes);
@@ -208,7 +215,7 @@ public class File {
 	private static final int MAX_SIZE = Integer.MAX_VALUE;
 	
 	/*******************************************************************
-	 * creationtime													   *
+	 * creationTime													   *
 	 *******************************************************************/
 	
 	/**
@@ -258,18 +265,18 @@ public class File {
 	 * Return whether this file is writeable or not.
 	 */
 	public boolean isWriteable() {
-		return this.writeable;
+		return this.isWriteable;
 	}
 	
 	/**
 	 * 
 	 */
 	private void setWriteable(boolean writeable) {
-		this.writeable = writeable;
+		this.isWriteable = writeable;
 	}
 	
 	/**
 	 * Variable registering whether this file can be overwritten or not. 
 	 */
-	private boolean writeable = true;
+	private boolean isWriteable = true;
 }
