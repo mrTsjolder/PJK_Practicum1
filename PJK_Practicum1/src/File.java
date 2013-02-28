@@ -1,16 +1,26 @@
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  * A class representing a file with a name, a length, 
  * a time of creation and of last edit and certain rights
  * 
+ * @invar	The name must be valid: consists of lower case and upper case letters,
+ * 			numbers, dots (.), hyphens (-) and underscores (_).
+ * 			The name must also consist of at least 1 character.
+ * 			| isValidName(name)
  * @invar 	The size must be a valid size for every single file.
  * 			| isValidSize(size)
  * 
  * @version 1.0
- * @author PieterJan
+ * @author Pieterjan Hoedt & Kenneth Verstraete
  *
  */
 public class File {
+	
+	/*******************************************************************
+	 * Constructors													   *
+	 *******************************************************************/
 	
 	/**
 	 * Initialize this new file with given name, size 
@@ -33,7 +43,7 @@ public class File {
 	 * 			will be set as the writableness of this file.
 	 * 			| setWritable(writable)
 	 */
-	public File(String name, int size, boolean writeable){
+	public File(String name, int size, boolean writeable) {
 		setName(name);
 		setSize(size);
 		setWriteable(writeable);
@@ -59,6 +69,10 @@ public class File {
 		this(name, 0, true);
 	}
 	
+	/*******************************************************************
+	 * name															   *
+	 *******************************************************************/
+	
 	/**
 	 * Check whether the name of this file is a valid name.
 	 * 
@@ -70,10 +84,19 @@ public class File {
 	 * 			and is at least 1 character long.
 	 * 			False otherwise.
 	 */
-	public static boolean isValidName(String name){
-		return false;
+	public static boolean isValidName(String name) {
+		
+		boolean b = false;
+		if(name != null) {
+			Pattern p = Pattern.compile("[a-zA-Z_0-9.-]+");
+			Matcher m = p.matcher(name);
+			if(m.matches()) {
+				b = true;
+			}
+		}
+		return b;
 	}
-	
+
 	/**
 	 * Return the name of this file.
 	 */
@@ -95,8 +118,10 @@ public class File {
 	 * 			| if(!isValidName(this.name))
 	 * 			|	then new.getName() == getName()
 	 */
-	public void setName(String name){
-		if(isValidName(name))	this.name = name;
+	private void setName(String name) {
+		if(isValidName(name)) {
+			this.name = name;
+		}
 	}
 	
 	/**
@@ -104,10 +129,14 @@ public class File {
 	 */
 	private String name = "file";
 	
+	/*******************************************************************
+	 * size															   *
+	 *******************************************************************/
+	
 	/**
 	 * Return the size of this file.
 	 */
-	public int getSize(){
+	public int getSize() {
 		return this.size;
 	}
 	/**
@@ -119,7 +148,7 @@ public class File {
 	 * 			does not exceed the maximum allowed size.
 	 * 			| result == (size >= 0) && (size <= getMaxSize())
 	 */
-	public static boolean isValidSize(int size){
+	public static boolean isValidSize(int size) {
 		return (size >=0 && size <= getMaxSize());
 	}
 	
@@ -133,7 +162,7 @@ public class File {
 	 * @post	The given size will be the new size of this file.
 	 * 			| new.getSize() == size
 	 */
-	private void setSize(int size){
+	private void setSize(int size) {
 		this.size = size;
 	}
 	
@@ -145,7 +174,7 @@ public class File {
 	 * 			to the size of the file.
 	 * @pre		The number of bytes must be a positive number.
 	 */
-	public void enlarge(int numberOfBytes){
+	public void enlarge(int numberOfBytes) {
 		setSize(getSize() + numberOfBytes);
 	}
 	
@@ -157,7 +186,7 @@ public class File {
 	 * 			from the size of the file.
 	 * @pre		The number of bytes must be a positive number.
 	 */
-	public void shorten(int numberOfBytes){
+	public void shorten(int numberOfBytes) {
 		setSize(getSize() - numberOfBytes);
 	}
 	
@@ -169,7 +198,7 @@ public class File {
 	/**
 	 * Return the maximum allowed size for all files.
 	 */
-	public static int getMaxSize(){
+	public static int getMaxSize() {
 		return MAX_SIZE;
 	}
 	
@@ -178,10 +207,14 @@ public class File {
 	 */
 	private static final int MAX_SIZE = Integer.MAX_VALUE;
 	
+	/*******************************************************************
+	 * creationtime													   *
+	 *******************************************************************/
+	
 	/**
 	 * Return the date of creation of this file.
 	 */
-	public Date getCreationtime(){
+	public Date getCreationtime() {
 		return this.creationTime;
 	}
 	
@@ -190,10 +223,14 @@ public class File {
 	 */
 	private final Date creationTime;
 	
+	/*******************************************************************
+	 * modificationtime												   *
+	 *******************************************************************/
+	
 	/**
 	 * Return the date of the last modification.
 	 */
-	public Date getModificationTime(){
+	public Date getModificationTime() {
 		return this.modificationTime;
 	}
 	
@@ -204,7 +241,7 @@ public class File {
 	 * 			The new time of the last modification.
 	 * 
 	 */
-	private void setModificationTime(Date modificationTime){
+	private void setModificationTime(Date modificationTime) {
 		this.modificationTime = modificationTime;
 	}
 	
@@ -213,17 +250,21 @@ public class File {
 	 */
 	private Date modificationTime;
 	
+	/*******************************************************************
+	 * writeable													   *
+	 *******************************************************************/
+	
 	/**
 	 * Return whether this file is writeable or not.
 	 */
-	public boolean isWriteable(){
+	public boolean isWriteable() {
 		return this.writeable;
 	}
 	
 	/**
 	 * 
 	 */
-	private void setWriteable(boolean writeable){
+	private void setWriteable(boolean writeable) {
 		this.writeable = writeable;
 	}
 	
