@@ -1,6 +1,8 @@
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import be.kuleuven.cs.som.annotate.*;
+
 /**
  * A class representing a file with a name, a length, 
  * a time of creation and of last edit and certain rights
@@ -11,7 +13,7 @@ import java.util.regex.Pattern;
  * 			| isValidName(name)
  * @invar 	The size must be a valid size for every single file.
  * 			| isValidSize(size)
- * 
+ * @see		2.1 Class Invariants
  * @version 1.0
  * @author Pieterjan Hoedt & Kenneth Verstraete
  *
@@ -42,6 +44,7 @@ public class File {
 	 * @effect 	The given permission whether to allow writing or not
 	 * 			will be set as the writableness of this file.
 	 * 			| setWritable(writable)
+	 * @see		1.1.3.3 Postconditions, 2.2.1 Semantics
 	 */
 	public File(String name, int size, boolean writeable) {
 		setName(name);
@@ -64,6 +67,7 @@ public class File {
 	 * 			| this.getName() == 0
 	 * @effect 	This file will be writable.
 	 * 			| getWritable() == true
+	 * @see		1.1.3.3 Postconditions
 	 */
 	public File(String name){
 		this(name, 0, true);
@@ -88,6 +92,7 @@ public class File {
 		
 		boolean b = false;
 		if(name != null) {
+			// make regex
 			Pattern p = Pattern.compile("[a-zA-Z_0-9.-]+");
 			Matcher m = p.matcher(name);
 			if(m.matches()) {
@@ -100,6 +105,7 @@ public class File {
 	/**
 	 * Return the name of this file.
 	 */
+	@Basic
 	public String getName(){
 		return this.name;
 	}
@@ -117,7 +123,9 @@ public class File {
 	 * 			the name of this file remain unchanged.
 	 * 			| if(!isValidName(this.name))
 	 * 			|	then new.getName() == getName()
+	 * @see		1.1.3.3 Postconditions, 2.3.5 Model methods
 	 */
+	@Model
 	private void setName(String name) {
 		if(isValidName(name)) {
 			this.name = name;
@@ -136,6 +144,7 @@ public class File {
 	/**
 	 * Return the size of this file.
 	 */
+	@Basic
 	public int getSize() {
 		return this.size;
 	}
@@ -162,6 +171,7 @@ public class File {
 	 * 			| isValidSize(size)
 	 * @post	The given size will be the new size of this file.
 	 * 			| new.getSize() == size
+	 * @see		1.1.3.3 Postconditions, 2.2.1 Semantics
 	 */
 	private void setSize(int size) {
 		this.size = size;
@@ -177,6 +187,7 @@ public class File {
 	 * 			| numberOfBytes >= 0
 	 * @effect	The size of the file is increased with the given number of bytes
 	 * 			| setSize(this.getSize() + numberOfBytes)	
+	 * @see		2.2.1 Semantics
 	 */
 	public void enlarge(int numberOfBytes) {
 		setSize(getSize() + numberOfBytes);
@@ -192,6 +203,7 @@ public class File {
 	 * 			| numberOfBytes >= 0
 	 * @effect	The size of the file is decreased with the given number of bytes
 	 * 			| setSize(this.getSize() - numberOfBytes)
+	 * @see		2.2.1 Semantics
 	 */
 	public void shorten(int numberOfBytes) {
 		setSize(getSize() - numberOfBytes);
@@ -221,6 +233,7 @@ public class File {
 	/**
 	 * Return the date of creation of this file.
 	 */
+	@Basic @Immutable
 	public Date getCreationtime() {
 		return this.creationTime;
 	}
@@ -237,6 +250,7 @@ public class File {
 	/**
 	 * Return the date of the last modification.
 	 */
+	@Basic
 	public Date getModificationTime() {
 		return this.modificationTime;
 	}
@@ -264,6 +278,7 @@ public class File {
 	/**
 	 * Return whether this file is writeable or not.
 	 */
+	@Basic
 	public boolean isWriteable() {
 		return this.isWriteable;
 	}
